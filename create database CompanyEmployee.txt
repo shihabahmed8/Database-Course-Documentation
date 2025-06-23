@@ -1,0 +1,63 @@
+create database CompanyEmployee
+use CompanyEmployee
+
+create table employee
+(
+d_num int,
+f_name nvarchar(20),
+l_name nvarchar(20),
+birth_date date,
+ssn int primary key identity(1, 1),
+gender bit default 0,
+superid int
+
+)
+
+alter table Employee
+	add d_num int foreign key references Department(Dnumber)
+
+create table department
+(
+d_name nvarchar(20) not null, 
+d_num int primary key identity(1,  1),
+manegar_ssn int,
+manegar_hiredate date not null,
+foreign key (manegar_ssn) references employee(ssn)
+)
+create table department_locations
+(
+d_num int,
+d_location nvarchar(100),
+foreign key (d_num) references department(d_num),
+primary key (d_num,d_location )
+)
+
+create table project
+(
+p_name nvarchar(50) not null,
+p_num int primary key identity(1,1),
+p_location nvarchar(100) not null,
+d_num int,
+foreign key (d_num) references department(d_num),
+)
+
+create table work
+(
+essn int,
+pnum int,
+working_hours int  not null,
+foreign key (essn) references employee(ssn),
+foreign key (pnum) references project(p_num),
+primary key (essn, pnum)
+)
+
+create table employeeDependent
+(
+essn int,
+dep_namd nvarchar (100) not null,
+gender bit default 0,
+BD date,
+relationshiop nvarchar (100),
+foreign key (essn) references employee(ssn),
+primary key (essn, dep_namd)
+)
