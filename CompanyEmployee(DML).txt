@@ -1,0 +1,180 @@
+create database CompanyEmployee
+use CompanyEmployee
+
+create table employee
+(
+d_num int,
+f_name nvarchar(20),
+l_name nvarchar(20),
+birth_date date,
+ssn int primary key identity(1, 1),
+gender bit default 0,
+superid int
+
+)
+
+alter table Employee
+	add d_num int foreign key references Department(Dnumber)
+
+create table department
+(
+d_name nvarchar(20) not null, 
+d_num int primary key identity(1,  1),
+manegar_ssn int,
+manegar_hiredate date not null,
+foreign key (manegar_ssn) references employee(ssn)
+)
+create table department_locations
+(
+d_num int,
+d_location nvarchar(100),
+foreign key (d_num) references department(d_num),
+primary key (d_num,d_location )
+)
+
+create table project
+(
+create database CompanyEmployee
+use CompanyEmployee
+
+create table employee
+(
+
+f_name nvarchar(20),
+l_name nvarchar(20),
+birth_date date,
+ssn int primary key identity(1, 1),
+gender nvarchar(1),
+superid int
+
+)
+
+select * from employee
+
+alter table Employee
+	add d_num int foreign key references Department(d_num)
+
+
+
+	alter table Employee
+	add  gender bit;
+
+create table department
+(
+d_name nvarchar(20) not null, 
+d_num int primary key identity(1,  1),
+manegar_ssn int,
+manegar_hiredate date not null,
+foreign key (manegar_ssn) references employee(ssn)
+);
+
+DELETE FROM department
+WHERE d_num NOT IN (
+    SELECT MIN(d_num)
+    FROM department
+    GROUP BY d_name
+);
+select * from department
+
+create table locations
+(
+d_num int,
+location nvarchar(100),
+foreign key (d_num) references department(d_num),
+primary key (d_num,location )
+)
+
+create table project
+(
+p_name nvarchar(50) not null,
+p_num int primary key identity(1,1),
+p_location nvarchar(100) not null,
+d_num int,
+foreign key (d_num) references department(d_num),
+)
+
+create table work
+(
+essn int,
+pnum int,
+working_hours int  not null,
+foreign key (essn) references employee(ssn),
+foreign key (pnum) references project(p_num),
+primary key (essn, pnum)
+)
+select * from work
+
+create table employeeDependent
+(
+essn int,
+dep_namd nvarchar (100) not null,
+gender bit default 0,
+BD date,
+relationshiop nvarchar (100),
+foreign key (essn) references employee(ssn),
+primary key (essn, dep_namd)
+)
+
+INSERT INTO employee (f_name, l_name, birth_date, gender)
+VALUES
+('Ali', 'Al-Harthy', '1990-05-14', 0),
+('Sara', 'Al-Zahri', '1992-08-21', 1),
+('Khaleed', 'Al-Busaidi', '1985-03-10',1),
+('Aisha', 'Al-Mahrouqi', '1993-12-05', 0),
+('Ahmed', 'Al-Hinai', '1988-07-30',1);
+
+
+select * from employee;
+
+UPDATE employee
+SET superid = 7
+WHERE ssn IN (8, 9, 10, 11);
+
+UPDATE employee SET d_num = 3 WHERE ssn IN (7, 9);
+UPDATE employee SET d_num = 6 WHERE ssn IN (8, 11);
+UPDATE employee SET d_num = 7 WHERE ssn = 10;
+
+select * from employee;
+
+
+
+INSERT INTO department (d_name, manegar_ssn, manegar_hiredate)
+VALUES
+('HR', 7, '2020-01-10'),
+('Finance', 8, '2019-05-01'),
+('IT', 9, '2021-03-15');
+
+INSERT INTO locations (d_num, location)
+VALUES
+(3, 'Muscat'), (4, 'Sohar'),
+(4, 'Nizwa'), (3, 'Salalah'),
+(5, 'Muscat'), (5, 'Ibri');
+
+INSERT INTO project (p_name, p_location, d_num)
+VALUES
+('Website criation', 'Muscat', 4),
+('Automation system', 'Nizwa', 3),
+('Data cleaning', 'Sohar', 5),
+('Inventory Management', 'Ibri', 3),
+('Financial Forecasting', 'Salalah', 5);
+
+INSERT INTO work (essn, pnum, working_hours)
+VALUES
+(7, 1, 30),
+(8, 3, 15),
+(9, 2, 25),
+(8, 1, 40),
+(8, 4, 35),
+(7, 5, 20);
+
+SELECT * FROM work;
+
+INSERT INTO employeeDependent (essn, dep_namd, gender, BD, relationshiop)
+VALUES
+(7, 'Omar', 1, '2015-06-15', 'Son'),
+(8, 'Leena', 0, '2012-11-20', 'Daughter'),
+(11, 'Mona', 0, '1990-01-01', 'Wife'),
+(10, 'Ahmed', 1, '2018-09-12', 'Son'),
+(9, 'Nawal', 0, '2016-03-22', 'Daughter');
+
+SELECT * FROM employeeDependent;
